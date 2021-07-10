@@ -2,13 +2,14 @@ package com.ranzan.idenditycardproblemcontinuation;
 
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements onItemClicked {
     private RecyclerView recyclerView;
     private ArrayList<Person> personList = new ArrayList<>();
 
@@ -35,13 +36,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setRecyclerView() {
-        PersonAdapter personAdapter = new PersonAdapter(personList);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1,GridLayoutManager.VERTICAL,false);
+        PersonAdapter personAdapter = new PersonAdapter(personList, this);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1,
+                GridLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(personAdapter);
     }
 
     private void initViews() {
         recyclerView = findViewById(R.id.recyclerView);
+    }
+
+    @Override
+    public void onItemClick(Person person, int position) {
+        new AlertDialog.Builder(this).setTitle(person.getCompanyName())
+                .setMessage("Age: " + person.getAge()).show();
+
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
     }
 }
